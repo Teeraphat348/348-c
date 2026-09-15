@@ -16,18 +16,18 @@ export default function BandExplorer({ bands }: BandExplorerProps) {
     setKeyword(event.target.value);
   }
 
-  function handleToggleFollow(id: string) {
+  function handleToggleFollow(id: string | number) {
+    const stringId = String(id);
     setFollowedIds((prev) =>
-      prev.includes(id) ? prev.filter((bandId) => bandId !== id) : [...prev, id]
+      prev.includes(stringId) ? prev.filter((bandId) => bandId !== stringId) : [...prev, stringId]
     );
   }
 
-  // ปรับตรงนี้ให้รองรับทั้ง string และ number และแปลงเป็น string เสมอ
   function handleLike(id: string | number) {
-    const key = String(id);
+    const stringId = String(id);
     setLikes((prev) => ({
       ...prev,
-      [key]: (prev[key] || 0) + 1,
+      [stringId]: (prev[stringId] || 0) + 1,
     }));
   }
 
@@ -80,8 +80,9 @@ export default function BandExplorer({ bands }: BandExplorerProps) {
       ) : (
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))", gap: "20px" }}>
           {visibleBands.map((band) => {
-            const isFollowed = followedIds.includes(band.id);
-            const likeCount = likes[band.id] || 0;
+            const stringId = String(band.id);
+            const isFollowed = followedIds.includes(stringId);
+            const likeCount = likes[stringId] || 0;
 
             return (
               <div
