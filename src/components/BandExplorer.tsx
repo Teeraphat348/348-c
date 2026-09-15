@@ -22,10 +22,12 @@ export default function BandExplorer({ bands }: BandExplorerProps) {
     );
   }
 
-  function handleLike(id: string) {
+  // ปรับตรงนี้ให้รองรับทั้ง string และ number และแปลงเป็น string เสมอ
+  function handleLike(id: string | number) {
+    const key = String(id);
     setLikes((prev) => ({
       ...prev,
-      [id]: (prev[id] || 0) + 1,
+      [key]: (prev[key] || 0) + 1,
     }));
   }
 
